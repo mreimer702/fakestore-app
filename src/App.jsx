@@ -5,6 +5,7 @@ import NotFound from './components/NotFound';
 import ProductList from './components/ProductList';
 import ProductDetails from './components/ProductDetails'; 
 import AddProduct from './components/AddProduct'; 
+import EditProduct from './components/EditProduct';
 import './App.css';
 
 function App() {
@@ -15,7 +16,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/products" element={<ProductList />} />
         <Route path="/products/:id" element={<ProductDetails />} /> 
-        <Route path="/add-product" element={<AddProduct />} /> 
+        <Route path="/add-product" element={<AddProduct />} />
+        <Route path="/edit-product/:id" element={<EditProduct />} /> 
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

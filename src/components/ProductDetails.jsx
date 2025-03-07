@@ -5,15 +5,20 @@ import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
+import { Link } from 'react-router-dom';
+import DeleteProduct from './DeleteProduct';
 
 function ProductDetails() {
-  const { id } = useParams();  // Extract product ID from the URL
+  const { id } = useParams();  
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [count, setCount] = useState(0);  // Cart count state
+  const [count, setCount] = useState(0);
+  const [showModal, setShowModal] = useState(false);
 
-  // Fetch product data on component mount or when product ID changes
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true);
+
   useEffect(() => {
     axios.get(`https://fakestoreapi.com/products/${id}`)
       .then(response => {
@@ -25,18 +30,6 @@ function ProductDetails() {
         setLoading(false);
       });
   }, [id]);
-
-  // Handle product deletion
-  const deleteProduct = () => {
-    axios.delete(`https://fakestoreapi.com/products/${id}`)
-      .then(() => {
-        alert('Product deleted successfully!');
-        window.location.href = '/products'; // Redirect to products list after deletion
-      })
-      .catch((error) => {
-        setError(`Failed to delete product: ${error.message}`);
-      });
-  };
 
   if (loading) {
     return (
@@ -61,10 +54,8 @@ function ProductDetails() {
           <Card.Text>{product.description}</Card.Text>
           <Card.Text><strong>Category:</strong> {product.category}</Card.Text>
           
-          {/* Buttons */}
           <Button variant="info" href="/products" className="mb-2">Back to Products</Button>
           
-          {/* Cart Button */}
           <Button 
             variant="primary" 
             className="mb-2" 
@@ -72,9 +63,22 @@ function ProductDetails() {
           >
             Add to Cart. You now have {count} items in your cart.
           </Button>
+          
+          <Link to={`/edit-product/${product.id}`}>
+            <Button variant="warning" className="mb-2">
+              Edit the information for this product
+            </Button>
+          </Link>
 
-          {/* Delete Button */}
-          <Button variant="danger" onClick={deleteProduct}>Delete the Product</Button>
+          <Button variant="danger" onClick={handleShowModal}>
+            Delete the Product
+          </Button>
+
+          <DeleteProduct 
+            showModal={showModal} 
+            handleCloseModal={handleCloseModal} 
+            productId={id} 
+          />
         </Card.Body>
       </Card>
     </Container>
