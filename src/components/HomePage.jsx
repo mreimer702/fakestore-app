@@ -9,7 +9,7 @@ function HomePage() {
     <Container className="d-flex flex-column align-items-center justify-content-center vh-100 text-center">
       <Row>
         <Col>
-          <h1>Hi, welcome to Martin Reimer's Fake Store</h1>
+          <h1>Hi, Welcome to Martin Reimer's Fake Store</h1>
           <h2>This store sells any fake products that you can access through the Fake Store API</h2>
           <Link to="/products">
             <Button variant="primary" className="mt-3">Product List</Button>
